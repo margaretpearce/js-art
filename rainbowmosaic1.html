@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Rainbow Mosaic 1</title>
+</head>
+<body>
+<canvas id="artCanvas" width="480" height="480">Your browser does not support the HTML5 canvas tag.</canvas>
+
+<script>
+var artModule = (function () {
+    "use strict";
+
+    var c = document.getElementById("artCanvas");
+    var ctx = c.getContext("2d");
+
+    var totalWidth = c.width;
+    var totalHeight = c.height;
+    var squareSize = 48;
+
+    var square = function (x, y, length, color) {
+        ctx.fillStyle = color;
+        ctx.fillRect(x, y, length, length);
+    };
+
+    var color = function (x, y) {
+        var hue = ((x * x + y * y) / (totalWidth * totalWidth + totalHeight * totalHeight)) * 360;
+        var saturation = 80;
+        var luminance = 80;
+        return 'hsl(' + hue + ', ' + saturation + '%, ' + luminance + '%)';
+    };
+
+    var init = function () {
+        var i, j, currentColor;
+        for (i = 0; i < totalWidth; i += squareSize) {
+            for (j = 0; j < totalHeight; j += squareSize) {
+                currentColor = color(i, j);
+                square(i, j, squareSize, currentColor);
+            }
+        }
+    };
+
+    return {init: init};
+}());
+
+artModule.init();
+</script>
+
+</body>
+</html>
